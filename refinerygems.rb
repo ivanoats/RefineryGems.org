@@ -1,12 +1,3 @@
-require 'rubygems'
-require 'sinatra'
-require 'httparty'
-
-# a gem description returned from the rubygems.org api
-class RefineryGem
-  include HTTParty
-end
-
 get '/' do
   response = <<-EOF
   <!DOCTYPE html>
@@ -17,9 +8,8 @@ get '/' do
       <h1>RefineryGems</h1>
       <ul>
   EOF
-  # call rubygems.org api
   # Loop through and print out names of gems and links to their homepage
-  RefineryGem.get('http://rubygems.org/api/v1/search.json?query=refinerycms').each do |g|
+  Gems.search('refinerycms').each do |g|
     response << "<li><a href=\"#{g['homepage_uri']}\">" + "#{g['name']}" + "</a>"
   end
   response << <<-EOF
